@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+import { Product } from "./interfaces/product";
+import ProductForm from "./components/ProductForm";
+import ProductList from "./components/ProductList";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const addProduct = (product: Product): void => {
+    setProducts([...products,product]);
+  };
+  const removeProduct = (id: number): void => {
+    setProducts(products.filter(p => p.id !== id));
+  };
+  const toggleEdit = (id: number): void => {
+    const productToEdit = products.find(p => p.id === id)!;
+    const editedProduct = {...productToEdit, edit : !productToEdit.edit};
+    setProducts(products.map(p => p.id !== id ? p: editedProduct));
+  };
+  const saveEditedProduct = (product: Product): void => {
+    setProducts(products.map(p => p.id !== product.id ? p: product));
+  };
+  
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <ProductForm addProduct={addProduct} />
+      <ProductList 
+      products={products}
+      removeProduct={removeProduct}
+      toggleEdit={toggleEdit}
+      saveEditedProduct={saveEditedProduct}
+      />
+    </div>
   )
 }
 
