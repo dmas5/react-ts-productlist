@@ -12,11 +12,13 @@ function App() {
     setProducts([...products,product]);
 
   };
+  
   const removeProduct = (id: number): void => {
 
     setProducts(products.filter(p => p.id !== id));
 
   };
+
   const toggleEdit = (id: number): void => {
 
     const productToEdit = products.find(p => p.id === id)!;
@@ -24,10 +26,11 @@ function App() {
     setProducts(products.map(p => p.id !== id ? p: editedProduct));
 
   };
+
   const saveEditedProduct = (product: Product): void => {
 
     setProducts(products.map(p => p.id !== product.id ? p: product));
-    
+
   };
   
 

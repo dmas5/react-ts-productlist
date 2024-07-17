@@ -13,13 +13,17 @@ const ProductForm = ({addProduct}: ProductFormProps) => {
       });
     
       const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
         setProduct({...product, [event.target.name]: event.target.value});
+
       };
 
       const add = (event: React.FormEvent<HTMLFormElement>) => {
+
         event.preventDefault();
         const newProduct = {...product, id: generateId(), edit: false };
         addProduct(newProduct);
+        
       };
 
 
